@@ -41,6 +41,7 @@ module prep_lnd_mod
 
   public :: prep_lnd_get_mapper_Sa2l
   public :: prep_lnd_get_mapper_Fa2l
+  public :: prep_lnd_get_mapper_Sr2l
   public :: prep_lnd_get_mapper_Fr2l
   public :: prep_lnd_get_mapper_Sg2l
   public :: prep_lnd_get_mapper_Fg2l
@@ -59,6 +60,7 @@ module prep_lnd_mod
   ! mappers
   type(seq_map), pointer :: mapper_Sa2l           ! needed in ccsm_comp_mod.F90 (setting of aream)
   type(seq_map), pointer :: mapper_Fa2l           ! needed in ccsm_comp_mod.F90 (seq_domain_check)
+  type(seq_map), pointer :: mapper_Sr2l           ! 
   type(seq_map), pointer :: mapper_Fr2l           ! needed in seq_frac_mct.F90
   type(seq_map), pointer :: mapper_Sg2l           ! currently unused (all g2l mappings use the flux mapper)
   type(seq_map), pointer :: mapper_Fg2l
@@ -127,6 +129,7 @@ contains
 
     allocate(mapper_Sa2l)
     allocate(mapper_Fa2l)
+    allocate(mapper_Sr2l)
     allocate(mapper_Fr2l)
     allocate(mapper_Sg2l)
     allocate(mapper_Fg2l)
@@ -163,6 +166,13 @@ contains
        if (trim(lnd_gnam) /= trim(glc_gnam)) samegrid_lg = .false.
 
        if (rof_c2_lnd) then
+          if (iamroot_CPLID) then
+             write(logunit,*) ' '
+             write(logunit,F00) 'Initializing mapper_Sr2l'
+          end if
+          call seq_map_init_rcfile(mapper_Sr2l, rof(1), lnd(1), &
+               'seq_maps.rc','rof2lnd_smapname:','rof2lnd_smaptype:',samegrid_lr, &
+               string='mapper_Sr2l initialization',esmf_map=esmf_map_flag)
           if (iamroot_CPLID) then
              write(logunit,*) ' '
              write(logunit,F00) 'Initializing mapper_Fr2l'
@@ -419,6 +429,8 @@ contains
        ! details of this mapping call are changed in the future, it's possible that the
        ! equivalent r2l mapping in map_lnd2rof_irrig_mod should be changed to keep the two
        ! equivalent.
+       call seq_map_map(mapper_Sr2l, r2x_rx, r2x_lx(eri), &
+            fldlist=seq_flds_r2x_states, norm=.true.)
        call seq_map_map(mapper_Fr2l, r2x_rx, r2x_lx(eri), &
             fldlist=seq_flds_r2x_fluxes, norm=.true.)
     enddo
@@ -501,6 +513,11 @@ contains
     type(seq_map), pointer :: prep_lnd_get_mapper_Fa2l
     prep_lnd_get_mapper_Fa2l => mapper_Fa2l
   end function prep_lnd_get_mapper_Fa2l
+
+  function prep_lnd_get_mapper_Sr2l()
+    type(seq_map), pointer :: prep_lnd_get_mapper_Sr2l
+    prep_lnd_get_mapper_Sr2l => mapper_Sr2l
+  end function prep_lnd_get_mapper_Sr2l
 
   function prep_lnd_get_mapper_Fr2l()
     type(seq_map), pointer :: prep_lnd_get_mapper_Fr2l

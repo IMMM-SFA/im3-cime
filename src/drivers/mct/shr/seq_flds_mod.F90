@@ -2063,6 +2063,22 @@ contains
     attname  = 'Flrr_volrmch'
     call metadata_set(attname, longname, stdname, units)
 
+    call seq_flds_add(r2x_states,'Sr_tdepth')
+    call seq_flds_add(x2l_states,'Sr_tdepth')
+    longname = 'River tributaries water depth'
+    stdname  = 'tributary water depth'
+    units    = 'm'
+    attname  = 'Sr_tdepth'
+    call metadata_set(attname, longname, stdname, units)
+
+    call seq_flds_add(r2x_states,'Sr_tdepth_max')
+    call seq_flds_add(x2l_states,'Sr_tdepth_max')
+    longname = 'River tributaries bankfull (maximum) water depth'
+    stdname  = 'tributary bankfull water depth'
+    units    = 'm'
+    attname  = 'Sr_tdepth_max'
+    call metadata_set(attname, longname, stdname, units)
+
     !-----------------------------
     ! wav->ocn and ocn->wav
     !-----------------------------
