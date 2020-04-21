@@ -78,15 +78,17 @@ def _case_setup_impl(case, caseroot, clean=False, test_mode=False, reset=False):
         din_loc_root = case.get_value("DIN_LOC_ROOT")
         testcase     = case.get_value("TESTCASE")
         expect(not (not os.path.isdir(din_loc_root) and testcase != "SBN"),
-               "inputdata root is not a directory: {}".format(din_loc_root))
+               "inputdata root is not a directory or is not readable: {}".format(din_loc_root))
 
     # Remove batch scripts
     if reset or clean:
-        # clean batch script
+        # clean setup-generated files
         batch_script = get_batch_script_for_job(case.get_primary_job())
-        if os.path.exists(batch_script):
-            os.remove(batch_script)
-            logger.info("Successfully cleaned batch script {}".format(batch_script))
+        files_to_clean = [batch_script, "env_mach_specific.xml", "Macros.make", "Macros.cmake"]
+        for file_to_clean in files_to_clean:
+            if os.path.exists(file_to_clean):
+                os.remove(file_to_clean)
+                logger.info("Successfully cleaned {}".format(file_to_clean))
 
         if not test_mode:
             # rebuild the models (even on restart)
@@ -110,11 +112,13 @@ def _case_setup_impl(case, caseroot, clean=False, test_mode=False, reset=False):
         if not os.path.isfile("Macros.make") or not os.path.isfile("env_mach_specific.xml"):
             configure(Machines(machine=mach), caseroot, ["Makefile"], compiler, mpilib, debug, comp_interface, sysos)
 
+        # Also write out Cmake macro file
+        if not os.path.isfile("Macros.cmake"):
+            configure(Machines(machine=mach), caseroot, ["CMake"], compiler, mpilib, debug, comp_interface, sysos)
+
         # Set tasks to 1 if mpi-serial library
         if mpilib == "mpi-serial":
-            for vid, value in case:
-                if vid.startswith("NTASKS") and value != 1:
-                    case.set_value(vid, 1)
+            case.set_value("NTASKS", 1)
 
         # Check ninst.
         # In CIME there can be multiple instances of each component model (an ensemble) NINST is the instance of that component.
