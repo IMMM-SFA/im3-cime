@@ -95,7 +95,6 @@ CONTAINS
  end function shr_orb_cosinc
 
   real(SHR_KIND_R8) pure FUNCTION shr_orb_cosz(jday,lat,lon,declin,dt_avg,uniform_angle)
->>>>>>> cime5.8.17
 
     !----------------------------------------------------------------------------
     !
