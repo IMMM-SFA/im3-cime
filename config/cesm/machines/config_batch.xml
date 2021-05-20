@@ -288,6 +288,10 @@
       <arg flag="-p" name="$JOB_QUEUE"/>
       <arg flag="--account" name="$PROJECT"/>
     </submit_args>
+    <queues>
+      <queue walltimemax="48:00:00" nodemin="1" nodemax="128" default="true">slurm</queue>
+      <queue walltimemax="00:20:00" nodemin="1" nodemax="128">short</queue>
+    </queues>
   </batch_system>
 
   <batch_system MACH="cori-haswell" type="slurm" >

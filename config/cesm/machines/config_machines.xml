@@ -697,13 +697,18 @@ This allows using a different mpirun command to launch unit tests
     </mpirun>
     <module_system type="module">
       <init_path lang="perl">/share/apps/modules/Modules/3.2.10/init/perl.pm</init_path>
+      <init_path lang="python">/share/apps/modules/Modules/3.2.10/init/python.py</init_path>
       <init_path lang="csh">/etc/profile.d/modules.csh</init_path>
       <init_path lang="sh">/etc/profile.d/modules.sh</init_path>
       <cmd_path lang="perl">/share/apps/modules/Modules/3.2.10/bin/modulecmd perl </cmd_path>
+      <cmd_path lang="python">/share/apps/modules/Modules/3.2.10/bin/modulecmd python</cmd_path>
       <cmd_path lang="sh">module</cmd_path>
       <cmd_path lang="csh">module</cmd_path>
       <modules>
 	<command name="purge"/>
+      </modules>
+      <modules>
+        <command name="load">python/2.7.8</command>
       </modules>
       <modules>
 	<command name="load">perl/5.20.0</command>
@@ -711,7 +716,7 @@ This allows using a different mpirun command to launch unit tests
       </modules>
       <modules compiler="intel">
 	<command name="load">intel/15.0.1</command>
-	<command name="load">netcdf/4.3.2</command>
+	<command name="load">netcdf/4.7.4</command>
 	<command name="load">mkl/15.0.1</command>
       </modules>
       <modules compiler="pgi">
@@ -735,10 +740,11 @@ This allows using a different mpirun command to launch unit tests
       <env name="OMP_STACKSIZE">64M</env>
     </environment_variables>
     <environment_variables compiler="intel">
-      <env name="MKL_PATH">$MLIB_LIB</env>
-      <env name="NETCDF_HOME">/share/apps/netcdf/4.3.2/intel/15.0.1</env>
+      <env name="MKL_PATH">$ENV{MLIB_LIB}</env>
+      <env name="NETCDF_HOME">/share/apps/netcdf/4.7.4/intel/15.0.1</env>
     </environment_variables>
     <environment_variables compiler="pgi">
+      <env name="MKL_PATH">$ENV{MLIB_LIB}</env>
       <env name="NETCDF_HOME">/share/apps/netcdf/4.3.2/pgi/14.10</env>
     </environment_variables>
   </machine>
