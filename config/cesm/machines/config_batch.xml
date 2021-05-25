@@ -305,7 +305,7 @@
       <directive>-C haswell </directive>
     </directives>
     <queues>
-      <queue walltimemax="06:00:00" nodemin="1" nodemax="710">regular</queue>
+      <queue walltimemax="48:00:00" nodemin="1" nodemax="710">regular</queue>
     <!--  <queue walltimemax="00:30:00" nodemin="1" nodemax="3072" default="true">debug</queue> -->
     </queues>
   </batch_system>
@@ -322,7 +322,7 @@
       <directive>-S 2 </directive>
     </directives>
     <queues>
-      <queue walltimemax="02:00:00" nodemin="1" nodemax="177">regular</queue>
+      <queue walltimemax="48:00:00" nodemin="1" nodemax="177">regular</queue>
     <!--  <queue walltimemax="00:30:00" nodemin="1" nodemax="3072" default="true">debug</queue> -->
     </queues>
   </batch_system>
