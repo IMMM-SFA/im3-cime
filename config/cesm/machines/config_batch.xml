@@ -306,7 +306,8 @@
     </directives>
     <queues>
       <queue walltimemax="48:00:00" nodemin="1" nodemax="710">regular</queue>
-    <!--  <queue walltimemax="00:30:00" nodemin="1" nodemax="3072" default="true">debug</queue> -->
+      <queue walltimemax="00:30:00" nodemin="1" nodemax="710" default="true">debug</queue>
+      <queue walltimemax="48:00:00" nodemin="1" nodemax="710">premium</queue>
     </queues>
   </batch_system>
 
@@ -323,7 +324,8 @@
     </directives>
     <queues>
       <queue walltimemax="48:00:00" nodemin="1" nodemax="177">regular</queue>
-    <!--  <queue walltimemax="00:30:00" nodemin="1" nodemax="3072" default="true">debug</queue> -->
+      <queue walltimemax="00:30:00" nodemin="1" nodemax="177" default="true">debug</queue>
+      <queue walltimemax="48:00:00" nodemin="1" nodemax="177">premium</queue>
     </queues>
   </batch_system>
 
